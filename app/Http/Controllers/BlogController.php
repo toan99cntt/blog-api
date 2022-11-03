@@ -15,6 +15,7 @@ class BlogController extends Controller
 
     public function __construct(BlogRepository $repository)
     {
+
         $this->repository = $repository;
     }
 
