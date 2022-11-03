@@ -5,22 +5,18 @@ namespace App\Listeners;
 use App\Events\ShowBlog;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use App\Repositories\BlogRepository;
 use App\Models\Blog;
 
 class UpdateViewCount
 {
-
-    private BlogRepository $blogRepository;
-
     /**
      * Create the event listener.
      *
      * @return void
      */
-    public function __construct(BlogRepository $blogRepository)
+    public function __construct()
     {
-        $this->blogRepository = $blogRepository;
+        //
     }
 
     /**

@@ -16,6 +16,15 @@ class MessageController extends Controller
         $this->repository = $repository;
     }
 
+    public function show(Request $request, int $id): JsonResponse
+    {
+        $message = $this->repository->show($id, $request->user());
+
+        $resource = new MessageResource($message);
+
+        return responder()->getSuccess($resource);
+    }
+
     public function sendMessage(Request $request, int $id): JsonResponse
     {
         $message = $this->repository->sendMessage(

@@ -5,12 +5,23 @@ namespace App\Repositories;
 use App\Models\Message;
 use Illuminate\Http\UploadedFile;
 use App\Base\BaseRepository;
+use App\Events\ShowMessage;
+use App\Models\Member;
 
 class MessageRepository extends BaseRepository
 {
     public function model(): string
     {
         return Message::class;
+    }
+
+    public function show(int $id, Member $member): Message
+    {
+        $message = $this->model->findOrFail($id);
+
+        ShowMessage::dispatch($message, $member);
+
+        return $message;
     }
 
     public function sendMessage(int $senderId, int $receiverId, string $content): Message

@@ -49,6 +49,7 @@ Route::group(['middleware' => 'auth:member'], function () {
 });
 Route::group(['middleware' => 'auth:member'], function () {
     Route::group(['prefix' => 'chat'], function () {
+        Route::get('/{id}', [MessageController::class, 'show']);
         Route::post('/{id}', [MessageController::class, 'sendMessage']);
         Route::post('images/{id}', [MessageController::class, 'sendImages']);
         Route::post('files/{id}', [MessageController::class, 'sendFiles']);

@@ -2,12 +2,11 @@
 
 namespace App\Providers;
 
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 use App\Events\ShowBlog;
 use App\Listeners\UpdateViewCount;
+use App\Events\ShowMessage;
+use App\Listeners\UpdateHasSeen;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -17,11 +16,11 @@ class EventServiceProvider extends ServiceProvider
      * @var array<class-string, array<int, class-string>>
      */
     protected $listen = [
-        // Registered::class => [
-        //     SendEmailVerificationNotification::class,
-        // ],
         ShowBlog::class => [
             UpdateViewCount::class,
+        ],
+        ShowMessage::class => [
+            UpdateHasSeen::class,
         ],
     ];
 
