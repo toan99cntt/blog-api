@@ -29,6 +29,7 @@ class UpdateViewCount
     {
         /** @var Blog $blog */
         $blog = $event->getBlog();
+
         $blog->setViewCount($blog->view_count + 1)
             ->save();
     }
