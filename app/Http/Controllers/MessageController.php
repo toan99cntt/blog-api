@@ -28,4 +28,17 @@ class MessageController extends Controller
 
         return responder()->getSuccess($resource);
     }
+
+    public function sendImages(Request $request, int $id): JsonResponse
+    {
+        $message = $this->repository->sendImages(
+            $request->user()->getKey(),
+            $id,
+            $request->file('images')
+        );
+
+        $resource = new MessageResource($message);
+
+        return responder()->getSuccess($resource);
+    }
 }

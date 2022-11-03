@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Member;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\HasMedia;
 
 /**
  * Class Message
@@ -21,9 +23,9 @@ use App\Models\Member;
  * @property integer created_at
  * @property integer updated_at
  */
-class Message extends Model
+class Message extends Model implements HasMedia
 {
-    use HasFactory;
+    use HasFactory, InteractsWithMedia;
 
     protected $fillable = [
         'sender_id',
@@ -40,6 +42,8 @@ class Message extends Model
     const MESSAGE_NOT_SEEN = 1;
     const MESSAGE_HAS_SEEN = 2;
 
+    const MESSAGE_MEDIA = 'message_media';
+
     public function setSenderId(int $senderId): self
     {
         $this->sender_id = $senderId;
@@ -54,7 +58,7 @@ class Message extends Model
         return $this;
     }
 
-    public function setContent(int $content): self
+    public function setContent(?string $content): self
     {
         $this->content = $content;
 

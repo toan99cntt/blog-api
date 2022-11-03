@@ -7,6 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\Message;
 use Illuminate\Support\Carbon;
 use App\Transformers\Member\MemberResource;
+use App\Transformers\Media\FileResource;
 
 class MessageResource extends JsonResource
 {
@@ -27,6 +28,7 @@ class MessageResource extends JsonResource
             'has_seen' => $message->has_seen,
             'sender' => new MemberResource($message->sender),
             'receiver' => new MemberResource($message->receiver),
+            'attachments' => FileResource::collection($message->getMedia(Message::MESSAGE_MEDIA)),
             'created_at' => Carbon::parse($message->created_at)->format(config('format.date_en')),
             'updated_at' => Carbon::parse($message->updated_at)->format(config('format.date_en')),
         ];
