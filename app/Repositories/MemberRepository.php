@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use App\Base\BaseRepository;
 use Illuminate\Support\Facades\Hash;
+use App\Filter\MemberFilter;
 
 class MemberRepository extends BaseRepository
 {
@@ -17,7 +18,13 @@ class MemberRepository extends BaseRepository
 
     public function index(Request $request): Collection
     {
-        return $this->model->newQuery()->get();
+        $builder = $this->model->newQuery();
+        /** @var MemberFilter $filter */
+        $filter = app(MemberFilter::class);
+
+        $filter->setData($request->all())->handle($builder);
+
+        return $builder->get();
     }
 
     public function store(Request $request): Member
