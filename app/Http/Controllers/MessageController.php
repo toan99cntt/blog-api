@@ -41,4 +41,17 @@ class MessageController extends Controller
 
         return responder()->getSuccess($resource);
     }
+
+    public function sendFiles(Request $request, int $id): JsonResponse
+    {
+        $message = $this->repository->sendFiles(
+            $request->user()->getKey(),
+            $id,
+            $request->file('files')
+        );
+
+        $resource = new MessageResource($message);
+
+        return responder()->getSuccess($resource);
+    }
 }

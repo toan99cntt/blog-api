@@ -35,13 +35,32 @@ class MessageRepository extends BaseRepository
         $message
             ->setSenderId($senderId)
             ->setReceiverId($receiverId)
-            ->setType(Message::MESSAGE_TYPE_TEXT)
+            ->setType(Message::MESSAGE_TYPE_IMAGE)
             ->setHasSeen(Message::MESSAGE_NOT_SEEN)
             ->save();
 
        /** @var UploadedFile $image */
        foreach ($images as $image) {
             $message->addMedia($image)->toMediaCollection(Message::MESSAGE_MEDIA);
+        }
+
+        return $message;
+    }
+
+    public function sendFiles(int $senderId, int $receiverId, array $files): Message
+    {
+        /** @var Message $message */
+        $message = new $this->model();
+        $message
+            ->setSenderId($senderId)
+            ->setReceiverId($receiverId)
+            ->setType(Message::MESSAGE_TYPE_FILE)
+            ->setHasSeen(Message::MESSAGE_NOT_SEEN)
+            ->save();
+
+       /** @var UploadedFile $file */
+       foreach ($files as $file) {
+            $message->addMedia($file)->toMediaCollection(Message::MESSAGE_MEDIA);
         }
 
         return $message;
