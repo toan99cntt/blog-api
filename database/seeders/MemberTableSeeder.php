@@ -17,25 +17,21 @@ class MemberTableSeeder extends Seeder
     {
         $members = [
             [
-                'username' => 'admin',
                 'password' => Hash::make('123123'),
                 'email' => 'admin@test.com',
                 'name' => 'admin',
             ],
             [
-                'username' => 'member1',
                 'password' => Hash::make('123123'),
                 'email' => 'member1@test.com',
                 'name' => 'member1',
             ],
             [
-                'username' => 'member2',
                 'password' => Hash::make('123123'),
                 'email' => 'member2@test.com',
                 'name' => 'member2',
             ],
             [
-                'username' => 'member3',
                 'password' => Hash::make('123123'),
                 'email' => 'member3@test.com',
                 'name' => 'member3',

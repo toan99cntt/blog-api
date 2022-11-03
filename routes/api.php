@@ -48,9 +48,7 @@ Route::group(['middleware' => 'auth:member'], function () {
     });
 });
 Route::group(['middleware' => 'auth:member'], function () {
-    Route::group(['prefix' => 'message'], function () {
-        Route::get('/{id}', [MessageController::class, 'getListMessageByReceiverId']);
-        Route::post('/', [MessageController::class, 'store']);
-        Route::get('/detail/{id}', [MessageController::class, 'show']);
+    Route::group(['prefix' => 'chat'], function () {
+        Route::post('/{id}', [MessageController::class, 'sendMessage']);
     });
 });
