@@ -20,6 +20,7 @@ use App\Models\Blog;
  * @property string email
  * @property string phone_number
  * @property integer status
+ * @property bool gender
  * @property Collection blogs
  * @property integer created_at
  * @property integer updated_at
@@ -34,11 +35,15 @@ class Member extends User implements HasMedia
         'name',
         'phone_number',
         'status',
+        'gender',
         'dob',
     ];
 
     const IS_ACTIVE = 1;
     const INACTIVE = 0;
+
+    const MALE = true;
+    const FE_MALE = false;
 
     const AVATAR_MEMBER = 'avatar_member';
 
@@ -99,6 +104,13 @@ class Member extends User implements HasMedia
     public function setStatus(int $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function setGender(bool $gender): self
+    {
+        $this->gender = $gender;
 
         return $this;
     }

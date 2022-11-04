@@ -57,7 +57,8 @@ class MemberRepository extends BaseRepository
         $member
             ->setName($request->get('name'))
             ->setPhoneNumber($request->get('phone_number'))
-            ->setDob($request->get('dob'))
+            ->setDob(convert_date_vn_to_en($request->get('dob')))
+            ->setGender($request->get('gender'))
             ->save();
 
         return $member;
