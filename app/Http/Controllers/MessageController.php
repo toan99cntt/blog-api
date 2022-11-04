@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Repositories\MessageRepository;
 use Illuminate\Http\JsonResponse;
 use App\Transformers\Message\MessageResource;
+use App\Http\Requests\Message\SendMessageRequest;
+use App\Http\Requests\Message\SendImageRequest;
+use App\Http\Requests\Message\SendFileRequest;
 
 class MessageController extends Controller
 {
@@ -25,7 +28,7 @@ class MessageController extends Controller
         return responder()->getSuccess($resource);
     }
 
-    public function sendMessage(Request $request, int $id): JsonResponse
+    public function sendMessage(SendMessageRequest $request, int $id): JsonResponse
     {
         $message = $this->repository->sendMessage(
             $request->user()->getKey(),
@@ -38,7 +41,7 @@ class MessageController extends Controller
         return responder()->getSuccess($resource);
     }
 
-    public function sendImages(Request $request, int $id): JsonResponse
+    public function sendImages(SendImageRequest $request, int $id): JsonResponse
     {
         $message = $this->repository->sendImages(
             $request->user()->getKey(),
@@ -51,7 +54,7 @@ class MessageController extends Controller
         return responder()->getSuccess($resource);
     }
 
-    public function sendFiles(Request $request, int $id): JsonResponse
+    public function sendFiles(SendFileRequest $request, int $id): JsonResponse
     {
         $message = $this->repository->sendFiles(
             $request->user()->getKey(),
