@@ -6,6 +6,7 @@ use Laravel\Passport\Http\Controllers\AccessTokenController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,7 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::post('/member', [MemberController::class, 'store']);
+
 Route::group(['middleware' => 'auth:member'], function () {
     Route::group(['prefix' => 'members'], function () {
         Route::get('/', [MemberController::class, 'index']);
@@ -48,8 +50,7 @@ Route::group(['middleware' => 'auth:member'], function () {
 
         Route::post('{id}/like-unlike', [BlogController::class, 'likeAndUnlike']);
     });
-});
-Route::group(['middleware' => 'auth:member'], function () {
+
     Route::group(['prefix' => 'chat'], function () {
         Route::get('/{id}', [MessageController::class, 'show']);
         Route::post('/{id}', [MessageController::class, 'sendMessage']);
@@ -57,4 +58,11 @@ Route::group(['middleware' => 'auth:member'], function () {
         Route::post('files/{id}', [MessageController::class, 'sendFiles']);
         Route::get('messages/{id}', [MessageController::class, 'getMessages']);
     });
+
+    Route::group(['prefix' => 'comments'], function () {
+        Route::post('/{blogId}', [CommentController::class, 'store']);
+        Route::put('/{id}', [CommentController::class, 'update']);
+        Route::delete('/{id}', [CommentController::class, 'destroy']);
+    });
+
 });

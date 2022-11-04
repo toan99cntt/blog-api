@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\Blog;
 use Illuminate\Support\Carbon;
-use App\Transformers\Member\MemberResource;
 
 class BlogResource extends JsonResource
 {

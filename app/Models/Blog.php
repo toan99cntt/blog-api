@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Member;
+use App\Models\Comment;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 
 /**
  * @property integer id
@@ -15,6 +18,7 @@ use App\Models\Member;
  * @property integer view_count
  * @property integer like_count
  * @property Member member
+ * @property Collection comments
  * @property integer created_at
  * @property integer updated_at
  */
@@ -42,6 +46,11 @@ class Blog extends Model
     public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class, 'member_id')->withTrashed();
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
     }
 
     public function setTitle(string $title): self

@@ -22,6 +22,7 @@ use App\Models\Blog;
  * @property integer status
  * @property bool gender
  * @property Collection blogs
+ * @property Collection comments
  * @property integer created_at
  * @property integer updated_at
  */
@@ -71,6 +72,11 @@ class Member extends User implements HasMedia
     public function blogs(): HasMany
     {
         return $this->hasMany(Blog::class);
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
     }
 
     public function setEmail(string $email): self

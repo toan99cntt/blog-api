@@ -33,7 +33,6 @@ class MessageController extends Controller
     public function show(Request $request, int $id): JsonResponse
     {
         $message = $this->repository->show($id, $request->user());
-
         $resource = new MessageResource($message);
 
         return responder()->getSuccess($resource);

@@ -22,6 +22,7 @@ class BlogController extends Controller
     public function index(Request $request)
     {
         $blogs = $this->repository->index($request);
+
         return $blogs;
     }
 
