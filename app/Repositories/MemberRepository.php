@@ -2,11 +2,11 @@
 
 namespace App\Repositories;
 
-use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
-use App\Base\BaseRepository;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Member;
+use App\Base\BaseRepository;
 use App\Filter\MemberFilter;
 
 class MemberRepository extends BaseRepository
@@ -59,6 +59,19 @@ class MemberRepository extends BaseRepository
             ->setPhoneNumber($request->get('phone_number'))
             ->setDob(convert_date_vn_to_en($request->get('dob')))
             ->setGender($request->get('gender'))
+            ->save();
+
+        return $member;
+    }
+
+    public function findByEmail(string $email): ?Member
+    {
+        return $this->model->newQuery()->where('email', $email)->first();
+    }
+
+    public function updatePassword(Member $member, string $password): Member
+    {
+        $member->setPassword($password)
             ->save();
 
         return $member;
