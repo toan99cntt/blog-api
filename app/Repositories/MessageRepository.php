@@ -7,12 +7,23 @@ use Illuminate\Http\UploadedFile;
 use App\Base\BaseRepository;
 use App\Events\ShowMessage;
 use App\Models\Member;
+use Illuminate\Support\Collection;
 
 class MessageRepository extends BaseRepository
 {
     public function model(): string
     {
         return Message::class;
+    }
+
+    public function getMessages(int $senderId, int $receiverId): Collection
+    {
+        $messages = $this->model->newQuery()
+            ->whereIn('sender_id', [$senderId, $receiverId])
+            ->whereIn('receiver_id', [$senderId, $receiverId])
+            ->get();
+
+        return $messages;
     }
 
     public function show(int $id, Member $member): Message

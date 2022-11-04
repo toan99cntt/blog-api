@@ -55,5 +55,6 @@ Route::group(['middleware' => 'auth:member'], function () {
         Route::post('/{id}', [MessageController::class, 'sendMessage']);
         Route::post('images/{id}', [MessageController::class, 'sendImages']);
         Route::post('files/{id}', [MessageController::class, 'sendFiles']);
+        Route::get('messages/{id}', [MessageController::class, 'getMessages']);
     });
 });
