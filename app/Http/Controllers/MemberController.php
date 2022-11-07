@@ -23,7 +23,7 @@ class MemberController extends Controller
         $members = $this->repository->index($request);
         $collection = MemberResource::collection($members);
 
-        return $members;
+        return responder()->getSuccess($collection);
     }
 
     public function store(StoreRequest $request): JsonResponse

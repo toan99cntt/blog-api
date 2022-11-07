@@ -8,6 +8,7 @@ use App\Repositories\BlogRepository;
 use App\Transformers\Blog\BlogUserResource;
 use App\Http\Requests\Blog\StoreRequest;
 use App\Http\Requests\Blog\UpdateRequest;
+use App\Transformers\Blog\BlogResource;
 
 class BlogController extends Controller
 {
@@ -21,7 +22,9 @@ class BlogController extends Controller
     public function index(Request $request)
     {
         $blogs = $this->repository->index($request);
-        return $blogs;
+        $collection = BlogUserResource::collection($blogs);
+
+        return responder()->getSuccess($collection);
     }
 
     public function store(StoreRequest $request): JsonResponse
