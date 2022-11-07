@@ -8,6 +8,7 @@ use App\Repositories\BlogRepository;
 use App\Transformers\Blog\BlogUserResource;
 use App\Http\Requests\Blog\StoreRequest;
 use App\Http\Requests\Blog\UpdateRequest;
+use App\Repositories\LikeRepository;
 use App\Transformers\Blog\BlogResource;
 
 class BlogController extends Controller
@@ -54,6 +55,16 @@ class BlogController extends Controller
     public function destroy(int $id): JsonResponse
     {
         $this->repository->destroy($id);
+
+        return responder()->getSuccess();
+    }
+
+    public function likeAndUnlike(Request $request, int $id): JsonResponse
+    {
+        /** @var LikeRepository $likeRepository */
+        $likeRepository = app(LikeRepository::class);
+
+        $likeRepository->likeAndUnlike($id, $request->user()->getKey());
 
         return responder()->getSuccess();
     }

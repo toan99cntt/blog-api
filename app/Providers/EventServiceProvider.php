@@ -7,6 +7,8 @@ use App\Events\ShowBlog;
 use App\Listeners\UpdateViewCount;
 use App\Events\ShowMessage;
 use App\Listeners\UpdateHasSeen;
+use App\Events\LikeBlog;
+use App\Listeners\UpdateLikeCount;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -21,6 +23,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         ShowMessage::class => [
             UpdateHasSeen::class,
+        ],
+        LikeBlog::class => [
+            UpdateLikeCount::class,
         ],
     ];
 

@@ -28,6 +28,7 @@ class MemberResource extends JsonResource
             'dob' => convert_date_en_to_vn($member->dob),
             'phone_number' => $member->phone_number,
             'status' => $member->status,
+            'gender' => $member->gender,
             'blogs' => BlogResource::collection($member->blogs),
             'avatar' => $member->getMedia(Member::AVATAR_MEMBER),
             'created_at' => Carbon::parse($member->created_at)->format(config('format.date_en')),

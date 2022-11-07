@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Member;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Member;
+use Illuminate\Validation\Rule;
 
 class UpdateRequest extends FormRequest
 {
@@ -32,6 +34,10 @@ class UpdateRequest extends FormRequest
             'dob' => [
                 'nullable',
                 'date_format:' . config('format.date_vn'),
+            ],
+            'gender' => [
+                'nullable',
+                Rule::in([Member::MALE, Member::FE_MALE]),
             ],
         ];
     }

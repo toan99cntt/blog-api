@@ -6,6 +6,7 @@ use Laravel\Passport\Http\Controllers\AccessTokenController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,9 @@ Route::group(['prefix' => 'auth'], function () {
         Route::post('logout', [AuthController::class, 'logout']);
         Route::get('info', [AuthController::class, 'info']);
     });
+
+    Route::post('forgot-password', [AuthController::class, 'forgotPassword']);
+    Route::get('password-reset/{token}', [AuthController::class, 'passwordReset'])->name('auth.password_reset');
 });
 
 Route::post('/members', [MemberController::class, 'store']);
@@ -46,14 +50,23 @@ Route::group(['middleware' => 'auth:member'], function () {
         Route::post('/', [BlogController::class, 'store']);
         Route::put('/{id}', [BlogController::class, 'update']);
         Route::delete('/{id}', [BlogController::class, 'destroy']);
+
+        Route::post('{id}/like-unlike', [BlogController::class, 'likeAndUnlike']);
     });
-});
-Route::group(['middleware' => 'auth:member'], function () {
+
     Route::group(['prefix' => 'chat'], function () {
         Route::get('/', [MessageController::class, 'index']);
         Route::get('/{id}', [MessageController::class, 'show']);
         Route::post('/{id}', [MessageController::class, 'sendMessage']);
         Route::post('images/{id}', [MessageController::class, 'sendImages']);
         Route::post('files/{id}', [MessageController::class, 'sendFiles']);
+        Route::get('messages/{id}', [MessageController::class, 'getMessages']);
     });
+
+    Route::group(['prefix' => 'comments'], function () {
+        Route::post('/{blogId}', [CommentController::class, 'store']);
+        Route::put('/{id}', [CommentController::class, 'update']);
+        Route::delete('/{id}', [CommentController::class, 'destroy']);
+    });
+
 });

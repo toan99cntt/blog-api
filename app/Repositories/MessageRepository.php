@@ -17,6 +17,16 @@ class MessageRepository extends BaseRepository
         return Message::class;
     }
 
+    public function getMessages(int $senderId, int $receiverId): Collection
+    {
+        $messages = $this->model->newQuery()
+            ->whereIn('sender_id', [$senderId, $receiverId])
+            ->whereIn('receiver_id', [$senderId, $receiverId])
+            ->get();
+
+        return $messages;
+    }
+    
     public function index(Request $request): Collection
     {
         return $this->model->newQuery()->get();
