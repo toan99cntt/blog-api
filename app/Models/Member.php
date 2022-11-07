@@ -79,21 +79,21 @@ class Member extends User implements HasMedia
         return $this->hasMany(Comment::class);
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(?string $email): self
     {
         $this->email = $email;
 
         return $this;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(?string $password): self
     {
         $this->password = $password;
 
         return $this;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -107,7 +107,7 @@ class Member extends User implements HasMedia
         return $this;
     }
 
-    public function setStatus(int $status): self
+    public function setStatus(?int $status): self
     {
         $this->status = $status;
 
@@ -121,7 +121,7 @@ class Member extends User implements HasMedia
         return $this;
     }
 
-    public function setDob(string $dob): self
+    public function setDob(?string $dob): self
     {
         $this->dob = $dob;
 

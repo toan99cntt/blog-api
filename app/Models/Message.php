@@ -39,8 +39,8 @@ class Message extends Model implements HasMedia
     const MESSAGE_TYPE_IMAGE = 'image';
     const MESSAGE_TYPE_FILE = 'file';
 
-    const MESSAGE_NOT_SEEN = 1;
-    const MESSAGE_HAS_SEEN = 2;
+    const MESSAGE_NOT_SEEN = 0;
+    const MESSAGE_HAS_SEEN = 1;
 
     const MESSAGE_MEDIA = 'message_media';
 

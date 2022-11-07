@@ -7,6 +7,7 @@ use Illuminate\Http\UploadedFile;
 use App\Base\BaseRepository;
 use App\Events\ShowMessage;
 use App\Models\Member;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 class MessageRepository extends BaseRepository
@@ -24,6 +25,11 @@ class MessageRepository extends BaseRepository
             ->get();
 
         return $messages;
+    }
+    
+    public function index(Request $request): Collection
+    {
+        return $this->model->newQuery()->get();
     }
 
     public function show(int $id, Member $member): Message

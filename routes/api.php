@@ -35,13 +35,13 @@ Route::group(['prefix' => 'auth'], function () {
     Route::get('password-reset/{token}', [AuthController::class, 'passwordReset'])->name('auth.password_reset');
 });
 
-Route::post('/member', [MemberController::class, 'store']);
-
+Route::post('/members', [MemberController::class, 'store']);
 Route::group(['middleware' => 'auth:member'], function () {
     Route::group(['prefix' => 'members'], function () {
         Route::get('/', [MemberController::class, 'index']);
         Route::get('/{id}', [MemberController::class, 'show']);
-        Route::put('/{id}', [MemberController::class, 'update']);
+        Route::post('/{id}', [MemberController::class, 'update']);
+        Route::delete('/{id}', [MemberController::class, 'destroy']);
     });
 
     Route::group(['prefix' => 'blogs'], function () {
@@ -55,6 +55,7 @@ Route::group(['middleware' => 'auth:member'], function () {
     });
 
     Route::group(['prefix' => 'chat'], function () {
+        Route::get('/', [MessageController::class, 'index']);
         Route::get('/{id}', [MessageController::class, 'show']);
         Route::post('/{id}', [MessageController::class, 'sendMessage']);
         Route::post('images/{id}', [MessageController::class, 'sendImages']);

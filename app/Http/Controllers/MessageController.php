@@ -29,6 +29,14 @@ class MessageController extends Controller
 
         return responder()->getSuccess($resource);
     }
+    
+    public function index(Request $request)
+    {
+        $message = $this->repository->index($request);
+        $collection = MessageResource::collection($message);
+
+        return responder()->getSuccess($collection);
+    }
 
     public function show(Request $request, int $id): JsonResponse
     {

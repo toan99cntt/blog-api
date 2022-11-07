@@ -49,4 +49,11 @@ class MemberController extends Controller
 
         return responder()->getSuccess($resource);
     }
+
+    public function destroy(int $id): JsonResponse
+    {
+        $this->repository->destroy($id);
+
+        return responder()->getSuccess();
+    }
 }
