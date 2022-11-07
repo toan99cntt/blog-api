@@ -23,7 +23,7 @@ class MessageResource extends JsonResource
         $message = $this->resource;
         return [
             'id' => $message->id,
-            'name' => $message->content,
+            'content' => $message->content,
             'type' => $message->type,
             'has_seen' => $message->has_seen,
             'sender' => new MemberResource($message->sender),

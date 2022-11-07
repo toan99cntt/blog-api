@@ -24,11 +24,14 @@ class MemberRepository extends BaseRepository
     {
         /** @var Member $member */
         $member = new $this->model();
+        if ($request->hasFile('avatar')) {
+            $member->addMedia($request->file('avatar'))->toMediaCollection(Member::AVATAR_MEMBER);
+        }
         $member
             ->setEmail($request->get('email'))
             ->setPassword(Hash::make($request->get('password')))
             ->setName($request->get('name'))
-            ->setStatus(Member::INACTIVE)
+            ->setStatus(Member::IS_ACTIVE)
             ->save();
 
         return $member;
@@ -54,5 +57,10 @@ class MemberRepository extends BaseRepository
             ->save();
 
         return $member;
+    }
+
+    public function destroy(int $id): void
+    {
+        $this->model->newQuery()->findOrFail($id)->delete();
     }
 }

@@ -30,6 +30,9 @@ class Blog extends Model
         'member_id',
     ];
 
+    const IS_ACTIVE = 1;
+    const INACTIVE = 0;
+
     /**
      * The attributes that should be hidden for serialization.
      *
