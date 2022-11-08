@@ -16,6 +16,14 @@ class CommentController extends Controller
         $this->repository = $repository;
     }
 
+    public function index(Request $request)
+    {
+        $blogs = $this->repository->index($request);
+        $collection = CommentResource::collection($blogs);
+
+        return responder()->getSuccess($collection);
+    }
+
     public function store(Request $request, int $blogId): JsonResponse
     {
         $comment = $this->repository->store(
