@@ -5,12 +5,18 @@ namespace App\Repositories;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Base\BaseRepository;
+use Illuminate\Database\Eloquent\Collection;
 
 class CommentRepository extends BaseRepository
 {
     public function model(): string
     {
         return Comment::class;
+    }
+
+    public function index(Request $request): Collection
+    {
+        return $this->model->newQuery()->with('member', 'blog')->orderBy('id', 'desc')->get();
     }
 
     public function store(Request $request, int $memberId, int $blogId): Comment

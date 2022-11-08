@@ -114,7 +114,7 @@ class Member extends User implements HasMedia
         return $this;
     }
 
-    public function setGender(bool $gender): self
+    public function setGender(?bool $gender): self
     {
         $this->gender = $gender;
 

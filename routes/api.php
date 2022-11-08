@@ -64,6 +64,7 @@ Route::group(['middleware' => 'auth:member'], function () {
     });
 
     Route::group(['prefix' => 'comments'], function () {
+        Route::get('/', [CommentController::class, 'index']);
         Route::post('/{blogId}', [CommentController::class, 'store']);
         Route::put('/{id}', [CommentController::class, 'update']);
         Route::delete('/{id}', [CommentController::class, 'destroy']);
