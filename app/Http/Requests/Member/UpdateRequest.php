@@ -26,16 +26,16 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|min:8|max:30',
-            'phone_number' => [
+            '_name' => 'required|string|min:8|max:30',
+            '_phone_number' => [
                 'nullable',
                 'regex:' . config('validator.number'),
             ],
-            'dob' => [
+            '_dob' => [
                 'nullable',
                 'date_format:' . config('format.date_vn'),
             ],
-            'gender' => [
+            '_gender' => [
                 'nullable',
                 Rule::in([Member::MALE, Member::FE_MALE]),
             ],

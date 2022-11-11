@@ -35,9 +35,9 @@ class MemberRepository extends BaseRepository
             $member->addMedia($request->file('avatar'))->toMediaCollection(Member::AVATAR_MEMBER);
         }
         $member
-            ->setEmail($request->get('email'))
-            ->setPassword(Hash::make($request->get('password')))
-            ->setName($request->get('name'))
+            ->setEmail($request->get('_email'))
+            ->setPassword(Hash::make($request->get('_password')))
+            ->setName($request->get('_name'))
             ->setStatus(Member::IS_ACTIVE)
             ->save();
 
@@ -56,12 +56,13 @@ class MemberRepository extends BaseRepository
         $member = $this->model->findOrFail($id);
         if ($request->hasFile('avatar')) {
             $member->addMedia($request->file('avatar'))->toMediaCollection(Member::AVATAR_MEMBER);
+            return $member;
         }
         $member
-            ->setName($request->get('name'))
-            ->setPhoneNumber($request->get('phone_number'))
-            ->setDob(convert_date_vn_to_en($request->get('dob')))
-            ->setGender($request->get('gender'))
+            ->setName($request->get('_name'))
+            ->setPhoneNumber($request->get('_phone_number'))
+            ->setDob(convert_date_vn_to_en($request->get('_dob')))
+            ->setGender($request->get('_gender'))
             ->save();
 
         return $member;
