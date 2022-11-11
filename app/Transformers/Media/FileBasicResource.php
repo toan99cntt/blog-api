@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class FileResource extends JsonResource
+class FileBasicResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,11 +20,7 @@ class FileResource extends JsonResource
         $media = $this->resource;
 
         return [
-            'id' => $media->id,
-            'url' => $media->getFullUrl(),
-            'name' => $media->getAttributeValue('file_name'),
-            'type' => $media->getAttributeValue('mime_type'),
-            'size' => $media->getAttributeValue('size'),
+            'url' => $media->formFieldName ? $media->getFullUrl() : null,
         ];
     }
 }

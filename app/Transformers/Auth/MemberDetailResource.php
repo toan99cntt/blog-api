@@ -7,6 +7,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\Member;
 use Illuminate\Support\Carbon;
 use App\Transformers\Blog\BlogUserResource;
+use App\Transformers\Media\FileBasicResource;
+
 class MemberDetailResource extends JsonResource
 {
     /**
@@ -30,7 +32,7 @@ class MemberDetailResource extends JsonResource
             'status' => $member->status,
             'gender' => $member->gender,
             'blogs' => BlogUserResource::collection($member->blogs),
-            'avatar' => $member->getMedia(Member::AVATAR_MEMBER),
+            'avatar' => new FileBasicResource($member->getMedia(Member::AVATAR_MEMBER)),
             'created_at' => Carbon::parse($member->created_at)->format(config('format.date_en')),
             'updated_at' => Carbon::parse($member->updated_at)->format(config('format.date_en')),
         ];
