@@ -4,11 +4,13 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use App\Events\ShowBlog;
-use App\Listeners\UpdateViewCount;
-use App\Events\ShowMessage;
-use App\Listeners\UpdateHasSeen;
 use App\Events\LikeBlog;
+use App\Events\ShowMessage;
+use App\Events\StoreMember;
+use App\Listeners\UpdateViewCount;
+use App\Listeners\UpdateHasSeen;
 use App\Listeners\UpdateLikeCount;
+use App\Listeners\SetDefaultRole;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -26,6 +28,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         LikeBlog::class => [
             UpdateLikeCount::class,
+        ],
+        StoreMember::class => [
+            SetDefaultRole::class,
         ],
     ];
 
