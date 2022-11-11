@@ -25,8 +25,8 @@ class BlogRepository extends BaseRepository
         /** @var Blog $blog */
         $blog = new $this->model();
         $blog
-            ->setTitle($request->get('title'))
-            ->setContent($request->get('content'))
+            ->setTitle($request->get('_title'))
+            ->setContent($request->get('_content'))
             ->setMemberId($request->user()->getKey())
             ->save();
 

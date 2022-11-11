@@ -25,15 +25,15 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|min:8|max:30',
-            'email' => [
+            '_name' => 'required|string|min:8|max:30',
+            '_email' => [
                 'required',
                 'email:rfc',
                 'max:255',
                 Rule::unique('members'),
                 'regex:' . config('validator.email'),
             ],
-            'password' => [
+            '_password' => [
                 'required',
                 'string',
                 'min:8',
