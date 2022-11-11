@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Member;
 use App\Base\BaseRepository;
 use App\Filter\MemberFilter;
+use App\Events\StoreMember;
 
 class MemberRepository extends BaseRepository
 {
@@ -39,7 +40,10 @@ class MemberRepository extends BaseRepository
             ->setPassword(Hash::make($request->get('password')))
             ->setName($request->get('name'))
             ->setStatus(Member::IS_ACTIVE)
+            ->setGender($request->get('gender'))
             ->save();
+
+        StoreMember::dispatch($member);
 
         return $member;
     }
@@ -47,6 +51,7 @@ class MemberRepository extends BaseRepository
     public function show(int $id): ?Member
     {
         $blog = $this->model->with('blogs')->findOrFail($id);
+
         return $blog;
     }
 

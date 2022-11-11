@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Laravel\Passport\HasApiTokens;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User;
-use Spatie\MediaLibrary\HasMedia;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Collection;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use App\Models\Blog;
+use App\Models\Role;
 
 /**
  * @property integer id
@@ -23,6 +25,7 @@ use App\Models\Blog;
  * @property bool gender
  * @property Collection blogs
  * @property Collection comments
+ * @property Collection roles
  * @property integer created_at
  * @property integer updated_at
  */
@@ -79,6 +82,11 @@ class Member extends User implements HasMedia
         return $this->hasMany(Comment::class);
     }
 
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class, 'member_role');
+    }
+
     public function setEmail(?string $email): self
     {
         $this->email = $email;
@@ -127,4 +135,25 @@ class Member extends User implements HasMedia
 
         return $this;
     }
+
+    public function isAdmin(): bool
+    {
+        return $this->roles->contains([Role::ROLE_ADMIN]);
+    }
+
+    public function isManager(): bool
+    {
+        return $this->roles->contains([Role::ROLE_MANAGER]);
+    }
+
+    public function isMember(): bool
+    {
+        return $this->roles->contains([Role::ROLE_MEMBER]);
+    }
+
+    public function checkRoleIn(array $rolesId): bool
+    {
+        return $this->roles()->whereIn('role_id', $rolesId)->exists();
+    }
+
 }

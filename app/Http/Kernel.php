@@ -65,5 +65,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'format-response-sign-in' => \App\Http\Middleware\FormatResponseSignIn::class,
         'add-data-response' => \App\Http\Middleware\AddDataResponse::class,
+        'roles' => \App\Http\Middleware\RoleMiddleware::class,
     ];
 }

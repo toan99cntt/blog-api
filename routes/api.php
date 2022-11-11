@@ -7,6 +7,7 @@ use App\Http\Controllers\MemberController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\CommentController;
+use App\Models\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,5 +71,19 @@ Route::group(['middleware' => 'auth:member'], function () {
         Route::put('/{id}', [CommentController::class, 'update']);
         Route::delete('/{id}', [CommentController::class, 'destroy']);
     });
+
+});
+
+Route::group(
+    [
+        'prefix' => 'dashboard',
+        'middleware' => [
+            'auth:member',
+            'roles:' . Role::ROLE_ADMIN . ',' . Role::ROLE_MANAGER
+        ]
+    ],
+    function () {
+
+        Route::get('/', [MemberController::class, 'index']);
 
 });
