@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Member;
 use App\Models\Comment;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 
@@ -19,6 +20,7 @@ use Illuminate\Support\Collection;
  * @property integer like_count
  * @property Member member
  * @property Collection comments
+ * @property integer status
  * @property integer created_at
  * @property integer updated_at
  */
@@ -32,10 +34,14 @@ class Blog extends Model
         'view_count',
         'like_count',
         'member_id',
+        'status',
     ];
 
     const IS_ACTIVE = 1;
     const INACTIVE = 0;
+
+    const IS_PUBLISH = 1;
+    const IS_DRAFT = 0;
 
     /**
      * The attributes that should be hidden for serialization.
@@ -89,5 +95,27 @@ class Blog extends Model
         $this->member_id = $memberId;
 
         return $this;
+    }
+
+    public function setStatus(int $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function scopeIsPublish(Builder $query): Builder
+    {
+        return $query->where('status', self::IS_PUBLISH);
+    }
+
+    public function isPublish(): bool
+    {
+        return $this->status == self::IS_PUBLISH;
+    }
+
+    public function isDraft(): bool
+    {
+        return $this->status == self::IS_DRAFT;
     }
 }

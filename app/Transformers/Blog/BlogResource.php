@@ -22,6 +22,7 @@ class BlogResource extends JsonResource
 
         return [
             'id' => $blog->id,
+            'status' => $blog->status,
             'title' => $blog->title,
             'content' => $blog->content,
             'view_count' => (int) $blog->view_count,

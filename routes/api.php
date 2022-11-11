@@ -50,6 +50,7 @@ Route::group(['middleware' => 'auth:member'], function () {
         Route::post('/', [BlogController::class, 'store']);
         Route::put('/{id}', [BlogController::class, 'update']);
         Route::delete('/{id}', [BlogController::class, 'destroy']);
+        Route::put('/{id}/status', [BlogController::class, 'updateStatus']);
 
         Route::post('{id}/like-unlike', [BlogController::class, 'likeAndUnlike']);
     });

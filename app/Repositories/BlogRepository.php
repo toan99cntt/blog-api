@@ -17,7 +17,7 @@ class BlogRepository extends BaseRepository
 
     public function index(Request $request): Collection
     {
-        return $this->model->newQuery()->with('member')->orderBy('id', 'desc')->get();
+        return $this->model->newQuery()->isPublish()->with('member')->orderBy('id', 'desc')->get();
     }
 
     public function store(Request $request): Blog
@@ -55,6 +55,22 @@ class BlogRepository extends BaseRepository
 
     public function destroy(int $id): void
     {
-        $this->model->newQuery()->findOrFail($id)->delete();
+        $this->model->findOrFail($id)->delete();
+    }
+
+    public function updateStatus(int $id): Blog
+    {
+        /** @var Blog $blog */
+        $blog = $this->model->findOrFail($id);
+
+        if ($blog->isPublish()) {
+            $blog->setStatus(Blog::IS_DRAFT);
+        } else {
+            $blog->setStatus(Blog::IS_PUBLISH);
+        }
+
+        $blog->save();
+
+        return $blog;
     }
 }

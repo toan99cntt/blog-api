@@ -68,4 +68,12 @@ class BlogController extends Controller
 
         return responder()->getSuccess();
     }
+
+    public function updateStatus(Request $request, int $id): JsonResponse
+    {
+        $blog = $this->repository->updateStatus($id);
+        $resource = new BlogUserResource($blog);
+
+        return responder()->getSuccess($resource);
+    }
 }
