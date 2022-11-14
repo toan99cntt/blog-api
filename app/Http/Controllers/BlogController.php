@@ -9,7 +9,6 @@ use App\Transformers\Blog\BlogUserResource;
 use App\Http\Requests\Blog\StoreRequest;
 use App\Http\Requests\Blog\UpdateRequest;
 use App\Repositories\LikeRepository;
-use App\Transformers\Blog\BlogResource;
 
 class BlogController extends Controller
 {

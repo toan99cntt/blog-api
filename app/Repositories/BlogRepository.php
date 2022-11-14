@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\UploadedFile;
 use App\Base\BaseRepository;
 use App\Events\ShowBlog;
 
@@ -30,6 +31,9 @@ class BlogRepository extends BaseRepository
             ->setMemberId($request->user()->getKey())
             ->save();
 
+        $images = $request->file('images');
+        $this->addMediaForBlog($blog, $images);
+
         return $blog;
     }
 
@@ -49,6 +53,11 @@ class BlogRepository extends BaseRepository
             ->setTitle($request->get('title'))
             ->setContent($request->get('content'))
             ->save();
+
+        $blog->clearMediaCollection(Blog::BLOG_MEDIA);
+
+        $images = $request->file('images');
+        $this->addMediaForBlog($blog, $images);
 
         return $blog;
     }
@@ -72,5 +81,13 @@ class BlogRepository extends BaseRepository
         $blog->save();
 
         return $blog;
+    }
+
+    protected function addMediaForBlog(Blog $blog, array $images): void
+    {
+        /** @var UploadedFile $image */
+        foreach ($images as $image) {
+            $blog->addMedia($image)->toMediaCollection(Blog::BLOG_MEDIA);
+        }
     }
 }
