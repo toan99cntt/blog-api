@@ -19,8 +19,14 @@ class FileBasicResource extends JsonResource
         /** @var Media $media */
         $media = $this->resource;
 
+        try {
+            $url = $media->getFullUrl();
+        } catch (\Throwable $th) {
+            $url = null;
+        }
+
         return [
-            'url' => $media->formFieldName ? $media->getFullUrl() : null,
+            'url' => $url
         ];
     }
 }
