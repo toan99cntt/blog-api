@@ -31,7 +31,7 @@ class MemberResource extends JsonResource
             'status' => $member->status,
             'gender' => $member->gender,
             'blogs' => BlogResource::collection($member->blogs),
-            'avatar' => new FileBasicResource($member->getMedia(Member::AVATAR_MEMBER)),
+            'avatar' => FileBasicResource::collection($member->getMedia(Member::AVATAR_MEMBER)),
             'created_at' => Carbon::parse($member->created_at)->format(config('format.date_en')),
             'updated_at' => Carbon::parse($member->updated_at)->format(config('format.date_en')),
         ];

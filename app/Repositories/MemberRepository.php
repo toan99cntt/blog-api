@@ -60,6 +60,7 @@ class MemberRepository extends BaseRepository
         /** @var Member $member */
         $member = $this->model->findOrFail($id);
         if ($request->hasFile('avatar')) {
+            $member->clearMediaCollection(Member::AVATAR_MEMBER);
             $member->addMedia($request->file('avatar'))->toMediaCollection(Member::AVATAR_MEMBER);
             return $member;
         }
