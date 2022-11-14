@@ -39,6 +39,7 @@ class UpdateRequest extends FormRequest
                 'nullable',
                 Rule::in([Member::MALE, Member::FE_MALE]),
             ],
+            'avatar' => 'image|max:3072',
         ];
     }
 }

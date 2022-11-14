@@ -8,6 +8,7 @@ use App\Models\Blog;
 use Illuminate\Support\Carbon;
 use App\Transformers\Member\MemberResource;
 use App\Transformers\Comment\CommentResource;
+use App\Transformers\Media\FileBasicResource;
 
 class BlogUserResource extends JsonResource
 {
@@ -31,6 +32,7 @@ class BlogUserResource extends JsonResource
             'like_count' => (int) $blog->like_count,
             'member' => new MemberResource($blog->member),
             'comments' => CommentResource::collection($blog->comments),
+            'images' => FileBasicResource::collection($blog->getMedia(Blog::BLOG_MEDIA)),
             'created_at' => Carbon::parse($blog->created_at)->format(config('format.date_en')),
             'updated_at' => Carbon::parse($blog->updated_at)->format(config('format.date_en')),
         ];

@@ -11,6 +11,8 @@ use App\Models\Comment;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\HasMedia;
 
 /**
  * @property integer id
@@ -24,9 +26,9 @@ use Illuminate\Support\Collection;
  * @property integer created_at
  * @property integer updated_at
  */
-class Blog extends Model
+class Blog extends Model implements HasMedia
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, InteractsWithMedia;
 
     protected $fillable = [
         'title',
@@ -36,6 +38,8 @@ class Blog extends Model
         'member_id',
         'status',
     ];
+
+    const BLOG_MEDIA = 'blog_media';
 
     const IS_ACTIVE = 1;
     const INACTIVE = 0;
