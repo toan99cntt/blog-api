@@ -44,14 +44,17 @@ class MemberTableSeeder extends Seeder
         ];
 
         foreach ($members as $member) {
-            Member::query()->create($member);
+            Member::query()->updateOrCreate(
+                ['email' => $member['email']],
+                $member
+            );
         }
 
-        # Set all role for admin
+        # Set role for admin
         $roleAdmin = Role::where('name', Role::ROLE_ADMIN)->first();
         $roleAdmin->members()->detach();
 
-        $admin = Member::query()->where('id', config('env.admin_id'))->first();
+        $admin = Member::query()->where('email', 'admin@test.com')->first();
         $admin->roles()->detach();
         $admin->roles()->attach($roleAdmin);
 
