@@ -37,7 +37,7 @@ class BlogController extends Controller
 
     public function show(Request $request, int $id): JsonResponse
     {
-        $blog = $this->repository->show($id);
+        $blog = $this->repository->show($request, $id);
         $resource = new BlogUserResource($blog);
 
         return responder()->getSuccess($resource);
