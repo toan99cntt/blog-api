@@ -21,9 +21,9 @@ class MemberController extends Controller
     public function index(Request $request)
     {
         $members = $this->repository->index($request);
-        $collection = MemberResource::collection($members);
+        $resource = MemberResource::collection($members);
 
-        return responder()->getSuccess($collection);
+        return responder()->getSuccess($resource);
     }
 
     public function store(StoreRequest $request): JsonResponse

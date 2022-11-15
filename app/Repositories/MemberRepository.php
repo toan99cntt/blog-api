@@ -86,6 +86,11 @@ class MemberRepository extends BaseRepository
         return $this->model->newQuery()->where('email', $email)->first();
     }
 
+    public function findByIds(array $ids): Collection
+    {
+        return $this->model->newQuery()->whereIn('id', $ids)->get();
+    }
+
     public function updatePassword(Member $member, string $password): Member
     {
         $member->setPassword($password)
