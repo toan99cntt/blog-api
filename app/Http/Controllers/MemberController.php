@@ -36,7 +36,7 @@ class MemberController extends Controller
 
     public function show(Request $request, int $id): JsonResponse
     {
-        $member = $this->repository->show($id);
+        $member = $this->repository->show($request, $id);
         $resource = new MemberResource($member);
 
         return responder()->getSuccess($resource);
