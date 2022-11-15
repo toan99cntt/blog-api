@@ -45,14 +45,20 @@ class BlogRepository extends BaseRepository
 
     public function show(Request $request, int $id): ?Blog
     {
-        $blog = $this->model->newQuery()
-            ->with(['likes' => function ($query) use ($request) {
+        $blog = $this->model
+            ->newQuery()
+            ->findOrFail($id)
+            ->load(['likes' => function ($query) use ($request) {
                 $query->where('member_id', $request->user()->getKey());
-            }])
-            ->findOrFail($id);
+            }]);
         ShowBlog::dispatch($blog);
 
-        return $this->model->findOrFail($id);
+        return $this->model
+            ->newQuery()
+            ->findOrFail($id)
+            ->load(['likes' => function ($query) use ($request) {
+                $query->where('member_id', $request->user()->getKey());
+            }]);
     }
 
     public function update(Request $request, int $id): Blog
