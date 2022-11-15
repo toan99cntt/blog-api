@@ -72,14 +72,14 @@ class Blog extends Model implements HasMedia
         return $this->hasMany(Like::class);
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(?string $title): self
     {
         $this->title = $title;
 
         return $this;
     }
 
-    public function setContent(string $content): self
+    public function setContent(?string $content): self
     {
         $this->content = $content;
 
@@ -107,7 +107,7 @@ class Blog extends Model implements HasMedia
         return $this;
     }
 
-    public function setStatus(int $status): self
+    public function setStatus(?int $status): self
     {
         $this->status = $status;
 

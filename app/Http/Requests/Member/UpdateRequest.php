@@ -26,7 +26,7 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            '_name' => 'required|string|min:8|max:30',
+            '_name' => 'string|min:8|max:30',
             '_phone_number' => [
                 'nullable',
                 'regex:' . config('validator.number'),
