@@ -18,7 +18,13 @@ class BlogRepository extends BaseRepository
 
     public function index(Request $request): Collection
     {
-        return $this->model->newQuery()->isPublish()->with('member')->orderBy('id', 'desc')->get();
+        return $this->model->newQuery()
+            ->isPublish()
+            ->with(['member', 'likes' => function ($query) use ($request) {
+                $query->where('member_id', $request->user()->getKey());
+            }])
+            ->orderBy('id', 'desc')
+            ->get();
     }
 
     public function store(Request $request): Blog
@@ -37,12 +43,22 @@ class BlogRepository extends BaseRepository
         return $blog;
     }
 
-    public function show(int $id): ?Blog
+    public function show(Request $request, int $id): ?Blog
     {
-        $blog = $this->model->findOrFail($id);
+        $blog = $this->model
+            ->newQuery()
+            ->findOrFail($id)
+            ->load(['likes' => function ($query) use ($request) {
+                $query->where('member_id', $request->user()->getKey());
+            }]);
         ShowBlog::dispatch($blog);
 
-        return $this->model->findOrFail($id);
+        return $this->model
+            ->newQuery()
+            ->findOrFail($id)
+            ->load(['likes' => function ($query) use ($request) {
+                $query->where('member_id', $request->user()->getKey());
+            }]);
     }
 
     public function update(Request $request, int $id): Blog

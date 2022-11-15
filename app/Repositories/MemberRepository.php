@@ -50,7 +50,9 @@ class MemberRepository extends BaseRepository
 
     public function show(int $id): ?Member
     {
-        $blog = $this->model->with('blogs')->findOrFail($id);
+        $blog = $this->model->with(['blogs' => function($query) {
+            return $query->isPublish();
+        }])->findOrFail($id);
 
         return $blog;
     }

@@ -31,6 +31,7 @@ class BlogUserResource extends JsonResource
             'view_count' => (int) $blog->view_count,
             'like_count' => (int) $blog->like_count,
             'member' => new MemberResource($blog->member),
+            'likes' => count($blog->likes) ? true : false,
             'comments' => CommentResource::collection($blog->comments),
             'images' => FileBasicResource::collection($blog->getMedia(Blog::BLOG_MEDIA)),
             'created_at' => Carbon::parse($blog->created_at)->format(config('format.date_en')),

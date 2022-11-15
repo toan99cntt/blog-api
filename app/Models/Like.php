@@ -2,6 +2,9 @@
 namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Blog;
+use App\Models\Member;
 
 /**
  * @property integer id
@@ -31,5 +34,15 @@ class Like extends Model
         $this->blog_id = $blogId;
 
         return $this;
+    }
+
+    public function blog(): BelongsTo
+    {
+        return $this->belongsTo(Blog::class);
+    }
+
+    public function member(): BelongsTo
+    {
+        return $this->belongsTo(Member::class);
     }
 }

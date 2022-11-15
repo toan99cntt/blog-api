@@ -13,6 +13,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use App\Models\Blog;
 use App\Models\Role;
+use App\Models\Like;
 
 /**
  * @property integer id
@@ -85,6 +86,11 @@ class Member extends User implements HasMedia
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'member_role');
+    }
+
+    public function likes(): HasMany
+    {
+        return $this->hasMany(Like::class);
     }
 
     public function setEmail(?string $email): self
