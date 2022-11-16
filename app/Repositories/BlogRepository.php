@@ -59,7 +59,7 @@ class BlogRepository extends BaseRepository
                 'likes' => function ($query) use ($request) {
                     $query->where('member_id', $request->user()->getKey());
                 },
-                'comment' => function ($query) {
+                'comments' => function ($query) {
                     $query->orderBy('id', 'desc');
                 }
             ]);

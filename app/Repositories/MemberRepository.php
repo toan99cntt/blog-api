@@ -40,7 +40,7 @@ class MemberRepository extends BaseRepository
             ->setPassword(Hash::make($request->get('_password')))
             ->setName($request->get('_name'))
             ->setStatus(Member::IS_ACTIVE)
-            ->setGender($request->get('gender'))
+            ->setGender($request->get('_gender'))
             ->save();
 
         StoreMember::dispatch($member);

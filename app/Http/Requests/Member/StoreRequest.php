@@ -30,7 +30,7 @@ class StoreRequest extends FormRequest
                 'required',
                 'email:rfc',
                 'max:255',
-                Rule::unique('members'),
+                Rule::unique('members', 'email'),
                 'regex:' . config('validator.email'),
             ],
             '_password' => [
@@ -46,6 +46,7 @@ class StoreRequest extends FormRequest
                     }
                 }
             ],
+            '_gender' => 'required',
         ];
     }
 }
