@@ -75,4 +75,12 @@ class BlogController extends Controller
 
         return responder()->getSuccess($resource);
     }
+
+    public function getAll(Request $request)
+    {
+        $blogs = $this->repository->getAllData($request);
+        $collection = BlogUserResource::collection($blogs);
+
+        return responder()->getSuccess($collection);
+    }
 }

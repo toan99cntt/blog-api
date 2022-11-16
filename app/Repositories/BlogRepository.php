@@ -75,8 +75,8 @@ class BlogRepository extends BaseRepository
             ->setStatus($request->get('_status'))
             ->save();
 
-        $blog->clearMediaCollection(Blog::BLOG_MEDIA);
         if($request->hasFile('_image')) {
+            $blog->clearMediaCollection(Blog::BLOG_MEDIA);
             $image = $request->file('_image');
             $blog->addMedia($image)->toMediaCollection(Blog::BLOG_MEDIA);
         }
@@ -114,5 +114,15 @@ class BlogRepository extends BaseRepository
         foreach ($images as $image) {
             $blog->addMedia($image)->toMediaCollection(Blog::BLOG_MEDIA);
         }
+    }
+
+    public function getAllData(Request $request): Collection
+    {
+        return $this->model->newQuery()
+            ->with(['member', 'likes' => function ($query) use ($request) {
+                $query->where('member_id', $request->user()->getKey());
+            }])
+            ->orderBy('id', 'desc')
+            ->get();
     }
 }
