@@ -48,13 +48,19 @@ class MemberRepository extends BaseRepository
         return $member;
     }
 
-    public function show(int $id): ?Member
+    public function show($request, int $id): ?Member
     {
-        $blog = $this->model->with(['blogs' => function($query) {
-            return $query->isPublish();
-        }])->findOrFail($id);
+        $member = $this->model
+            ->with(['blogs' => function($query) use ($request) {
+                return $query->isPublish()
+                    ->with(['likes' => function ($q) use ($request) {
+                        $q->where('member_id', $request->user()->getKey());
+                    }])
+                    ;
+            }])
+            ->findOrFail($id);
 
-        return $blog;
+        return $member;
     }
 
     public function update(Request $request, int $id): Member
@@ -79,6 +85,11 @@ class MemberRepository extends BaseRepository
     public function findByEmail(string $email): ?Member
     {
         return $this->model->newQuery()->where('email', $email)->first();
+    }
+
+    public function findByIds(array $ids): Collection
+    {
+        return $this->model->newQuery()->whereIn('id', $ids)->get();
     }
 
     public function updatePassword(Member $member, string $password): Member

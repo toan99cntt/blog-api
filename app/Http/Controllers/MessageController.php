@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use App\Transformers\Message\MessageResource;
 use App\Http\Requests\Message\SendMessageRequest;
 use App\Http\Requests\Message\SendImageRequest;
+use App\Transformers\Member\MemberResource;
 use App\Http\Requests\Message\SendFileRequest;
 
 class MessageController extends Controller
@@ -29,7 +30,7 @@ class MessageController extends Controller
 
         return responder()->getSuccess($resource);
     }
-    
+
     public function index(Request $request)
     {
         $message = $this->repository->index($request);
@@ -81,6 +82,14 @@ class MessageController extends Controller
         );
 
         $resource = new MessageResource($message);
+
+        return responder()->getSuccess($resource);
+    }
+
+    public function getMemberChat(Request $request): JsonResponse
+    {
+        $members = $this->repository->getMemberChat($request);
+        $resource = MemberResource::collection($members);
 
         return responder()->getSuccess($resource);
     }

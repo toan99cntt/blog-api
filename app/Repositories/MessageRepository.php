@@ -8,7 +8,8 @@ use App\Base\BaseRepository;
 use App\Events\ShowMessage;
 use App\Models\Member;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection;
+use App\Repositories\MemberRepository;
 
 class MessageRepository extends BaseRepository
 {
@@ -26,7 +27,7 @@ class MessageRepository extends BaseRepository
 
         return $messages;
     }
-    
+
     public function index(Request $request): Collection
     {
         return $this->model->newQuery()->get();
@@ -94,4 +95,18 @@ class MessageRepository extends BaseRepository
         return $message;
     }
 
+    public function getMemberChat(Request $request): Collection
+    {
+        $membersId = $this->model->newQuery()
+            ->select('sender_id')
+            ->where('receiver_id', $request->user()->getKey())
+            ->groupBy('sender_id')
+            ->pluck('sender_id')
+            ->toArray();
+
+        /** @var MemberRepository $memberRepository */
+        $memberRepository = app(MemberRepository::class);
+
+        return $memberRepository->findByIds($membersId);
+    }
 }
