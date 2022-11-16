@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Blog;
 
+use App\Models\Blog;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreRequest extends FormRequest
 {
@@ -24,10 +26,13 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'images' => 'required|array|max:3',
-            'images.*' => 'image|max:3072',
+            '_title' => 'required|string|max:255',
+            '_content' => 'required|string',
+            '_status' => [
+                'required',
+                Rule::in([Blog::IS_PUBLISH, Blog::IS_DRAFT])
+            ],
+            '_image' => 'image|max:3072'
         ];
     }
 }

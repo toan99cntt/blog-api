@@ -47,8 +47,8 @@ class Member extends User implements HasMedia
     const IS_ACTIVE = 1;
     const INACTIVE = 0;
 
-    const MALE = true;
-    const FE_MALE = false;
+    const MALE = 1;
+    const FE_MALE = 0;
 
     const AVATAR_MEMBER = 'avatar_member';
 
@@ -128,7 +128,7 @@ class Member extends User implements HasMedia
         return $this;
     }
 
-    public function setGender(?bool $gender): self
+    public function setGender(?int $gender): self
     {
         $this->gender = $gender;
 

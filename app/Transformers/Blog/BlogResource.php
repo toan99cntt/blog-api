@@ -29,7 +29,7 @@ class BlogResource extends JsonResource
             'view_count' => (int) $blog->view_count,
             'like_count' => (int) $blog->like_count,
             'likes' => count($blog->likes) ? true : false,
-            'images' => FileBasicResource::collection($blog->getMedia(Blog::BLOG_MEDIA)),
+            'image' => FileBasicResource::collection($blog->getMedia(Blog::BLOG_MEDIA)),
             'created_at' => Carbon::parse($blog->created_at)->format(config('format.date_en')),
             'updated_at' => Carbon::parse($blog->updated_at)->format(config('format.date_en')),
         ];

@@ -32,13 +32,17 @@ class BlogRepository extends BaseRepository
         /** @var Blog $blog */
         $blog = new $this->model();
         $blog
-            ->setTitle($request->get('title'))
-            ->setContent($request->get('content'))
+            ->setTitle($request->get('_title'))
+            ->setContent($request->get('_content'))
+            ->setStatus($request->get('_status'))
             ->setMemberId($request->user()->getKey())
             ->save();
 
-        $images = $request->file('images');
-        $this->addMediaForBlog($blog, $images);
+        if($request->hasFile('_image')) {
+            $image = $request->file('_image');
+            $blog->addMedia($image)->toMediaCollection(Blog::BLOG_MEDIA);
+        }
+        // $this->addMediaForBlog($blog, $images);
 
         return $blog;
     }
@@ -66,14 +70,19 @@ class BlogRepository extends BaseRepository
         /** @var Blog $blog */
         $blog = $this->model->newQuery()->findOrFail($id);
         $blog
-            ->setTitle($request->get('title'))
-            ->setContent($request->get('content'))
+            ->setTitle($request->get('_title'))
+            ->setContent($request->get('_content'))
+            ->setStatus($request->get('_status'))
             ->save();
 
         $blog->clearMediaCollection(Blog::BLOG_MEDIA);
+        if($request->hasFile('_image')) {
+            $image = $request->file('_image');
+            $blog->addMedia($image)->toMediaCollection(Blog::BLOG_MEDIA);
+        }
 
-        $images = $request->file('images');
-        $this->addMediaForBlog($blog, $images);
+        // $images = $request->file('images');
+        // $this->addMediaForBlog($blog, $images);
 
         return $blog;
     }
