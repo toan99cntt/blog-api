@@ -4,6 +4,7 @@ namespace App\Http\Requests\Member;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Models\Member;
 
 class StoreRequest extends FormRequest
 {
@@ -46,7 +47,8 @@ class StoreRequest extends FormRequest
                     }
                 }
             ],
-            '_gender' => 'required',
+            '_gender' => ['required',
+                    Rule::in([Member::MALE, Member::FE_MALE]),],
         ];
     }
 }
