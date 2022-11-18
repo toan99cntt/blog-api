@@ -100,6 +100,7 @@ class MessageRepository extends BaseRepository
         $membersId = $this->model->newQuery()
             ->select('sender_id')
             ->where('receiver_id', $request->user()->getKey())
+            ->orWhere('sender_id', $request->user()->getKey())
             ->groupBy('sender_id')
             ->pluck('sender_id')
             ->toArray();

@@ -40,6 +40,19 @@ class UpdateRequest extends FormRequest
                 Rule::in([Member::MALE, Member::FE_MALE]),
             ],
             'avatar' => 'image|max:3072',
+            '_password' => [
+                'nullable',
+                'string',
+                'min:8',
+                'max:16',
+                'regex:' . config('validator.password'),
+                function ($attr, $value, $fail) {
+                    $check = preg_match(config('validator.check_space'), $value);
+                    if (! $check) {
+                        $fail('Mật khẩu không chứa khoảng trống.');
+                    }
+                }
+            ],
         ];
     }
 }

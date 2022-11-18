@@ -41,6 +41,8 @@ class MemberRepository extends BaseRepository
             ->setName($request->get('_name'))
             ->setStatus(Member::IS_ACTIVE)
             ->setGender($request->get('_gender'))
+            ->setPhoneNumber($request->get('_phone_number'))
+            ->setDob(convert_date_vn_to_en($request->get('_dob')))
             ->save();
 
         StoreMember::dispatch($member);
@@ -71,6 +73,9 @@ class MemberRepository extends BaseRepository
             $member->clearMediaCollection(Member::AVATAR_MEMBER);
             $member->addMedia($request->file('avatar'))->toMediaCollection(Member::AVATAR_MEMBER);
             return $member;
+        }
+        if($request->get('_password')) {
+            $member->setPassword(Hash::make($request->get('_password')));
         }
         $member
             ->setName($request->get('_name'))
