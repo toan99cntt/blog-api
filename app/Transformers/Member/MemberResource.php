@@ -21,7 +21,7 @@ class MemberResource extends JsonResource
     {
         /** @var Member $member */
         $member = $this->resource;
-
+        
         return [
             'id' => $member->id,
             'name' => $member->name,
