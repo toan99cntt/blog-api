@@ -7,6 +7,7 @@ use App\Http\Controllers\MemberController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\NotificationController;
 use App\Models\Role;
 
 /*
@@ -72,6 +73,12 @@ Route::group(['middleware' => 'auth:member'], function () {
         Route::post('/{blogId}', [CommentController::class, 'store']);
         Route::put('/{id}', [CommentController::class, 'update']);
         Route::delete('/{id}', [CommentController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => 'notifications'], function () {
+        Route::get('/', [NotificationController::class, 'index']);
+        Route::get('/all', [NotificationController::class, 'getAllNotifications']);
+        Route::get('/has-seen/{id}', [NotificationController::class, 'setNotificationSeen']);
     });
 
 });

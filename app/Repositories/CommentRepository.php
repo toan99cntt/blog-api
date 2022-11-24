@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Comment;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Base\BaseRepository;
 use Illuminate\Database\Eloquent\Collection;
@@ -28,6 +29,13 @@ class CommentRepository extends BaseRepository
             ->setMemberId($memberId)
             ->setContent($request->get('content'))
             ->save();
+
+        $blogRepository = app(BlogRepository::class);
+        $blog = $blogRepository->findOrFail($blogId);
+        if($memberId != $blog->member->id) {
+            $notificationRepository = app(NotificationRepository::class);
+            $notificationRepository->store($memberId, $blog->member->id, $blog->id, Notification::NOTIFICATION_TYPE_COMMENT);
+        }
 
         return $comment;
     }

@@ -28,7 +28,7 @@ class MemberPasswordReset extends Model
     const TOKEN_LENGTH = 30;
     const PASSWORD_LENGTH = 8;
     const PASSWORD_MIN_LENGTH = 8;
-    const TIME_DISTANCE = 5;
+    const TIME_DISTANCE = 0;
     const TOKEN_TIME = 30;
 
     public static function makeRandPassword(int $length = self::PASSWORD_MIN_LENGTH): string

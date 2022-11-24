@@ -42,7 +42,6 @@ class BlogRepository extends BaseRepository
             $image = $request->file('_image');
             $blog->addMedia($image)->toMediaCollection(Blog::BLOG_MEDIA);
         }
-        // $this->addMediaForBlog($blog, $images);
 
         return $blog;
     }
