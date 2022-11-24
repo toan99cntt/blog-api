@@ -89,7 +89,7 @@ class MessageController extends Controller
     public function getMemberChat(Request $request): JsonResponse
     {
         $members = $this->repository->getMemberChat($request);
-        $resource = MemberResource::collection($members);
+        $resource = MessageResource::collection($members);
 
         return responder()->getSuccess($resource);
     }

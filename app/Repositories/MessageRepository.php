@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Message;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use App\Base\BaseRepository;
 use App\Events\ShowMessage;
@@ -95,19 +96,47 @@ class MessageRepository extends BaseRepository
         return $message;
     }
 
-    public function getMemberChat(Request $request): Collection
+    public function getMemberChat(Request $request)
     {
-        $membersId = $this->model->newQuery()
-            ->select('sender_id')
+        $members = $this->model->newQuery()
             ->where('receiver_id', $request->user()->getKey())
-            ->orWhere('sender_id', $request->user()->getKey())
-            ->groupBy('sender_id')
-            ->pluck('sender_id')
-            ->toArray();
+            ->orWhere('sender_id', $request->user()->getKey());
 
-        /** @var MemberRepository $memberRepository */
-        $memberRepository = app(MemberRepository::class);
+        $memberSent = $this->getMemberSent($members);
+        $memberReceived = $this->getMemberReceived($members);
 
-        return $memberRepository->findByIds($membersId);
+        $members = array_merge($memberReceived, $memberSent);
+        $members = array_unique($members);
+        $members = array_filter($members,function ($k) use ($request) {
+            return $k != $request->user()->getKey();
+        } );
+
+        $messages = collect([]);
+        foreach ($members as $id) {
+            $message = $this->getIdMessages($id, $request->user()->getKey());
+            $messages->push($message);
+        }
+
+        return $messages->sortDesc();
+    }
+
+    public function getMemberSent($members): Array
+    {
+        return $members->groupBy('sender_id')->pluck('sender_id')->toArray();
+    }
+
+    public function getMemberReceived($members): Array
+    {
+        return $members->groupBy('receiver_id')->pluck('receiver_id')->toArray();
+    }
+
+    public function getIdMessages(int $receiverId, int $senderId ): Message
+    {
+        return $this->model->newQuery()
+            ->with(['sender', 'receiver'])
+            ->whereIn('sender_id', [$senderId, $receiverId])
+            ->whereIn('receiver_id', [$senderId, $receiverId])
+            ->orderBy('id', 'desc')
+            ->first();
     }
 }

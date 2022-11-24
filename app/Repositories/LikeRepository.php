@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Like;
 use App\Base\BaseRepository;
 use App\Events\LikeBlog;
+use App\Models\Notification;
 use App\Repositories\BlogRepository;
 
 class LikeRepository extends BaseRepository
@@ -16,6 +17,10 @@ class LikeRepository extends BaseRepository
 
     public function likeAndUnlike(int $blogId, int $memberId): void
     {
+        /** @var BlogRepository $blogRepository */
+        $blogRepository = app(BlogRepository::class);
+        $blog = $blogRepository->findOrFail($blogId);
+
         $like = $this->model->newQuery()
             ->where('blog_id', $blogId)
             ->where('member_id', $memberId)
@@ -30,12 +35,12 @@ class LikeRepository extends BaseRepository
                 ->setBlogId($blogId)
                 ->setMemberId($memberId)
                 ->save();
+
+            if ($blog->member->id != $memberId) {
+                $notificationRepository = app(NotificationRepository::class);
+                $notificationRepository->store($memberId, $blog->member->id, $blog->id, Notification::NOTIFICATION_TYPE_LIKE);
+            }
         }
-
-        /** @var BlogRepository $blogRepository */
-        $blogRepository = app(BlogRepository::class);
-
-        $blog = $blogRepository->findOrFail($blogId);
 
         LikeBlog::dispatch($blog);
     }
