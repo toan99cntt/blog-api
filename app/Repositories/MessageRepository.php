@@ -134,8 +134,14 @@ class MessageRepository extends BaseRepository
     {
         return $this->model->newQuery()
             ->with(['sender', 'receiver'])
-            ->whereIn('sender_id', [$senderId, $receiverId])
-            ->whereIn('receiver_id', [$senderId, $receiverId])
+            ->where([
+                ['sender_id', $senderId],
+                ['receiver_id', $receiverId]
+            ])
+            ->orWhere([
+                ['receiver_id', $senderId],
+                ['sender_id', $receiverId]
+            ])
             ->orderBy('id', 'desc')
             ->first();
     }
