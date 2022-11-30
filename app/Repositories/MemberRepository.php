@@ -77,6 +77,7 @@ class MemberRepository extends BaseRepository
         if($request->get('_password')) {
             $member->setPassword(Hash::make($request->get('_password')));
         }
+        // dd($request->get('_gender'));
         $member
             ->setName($request->get('_name'))
             ->setPhoneNumber($request->get('_phone_number'))
