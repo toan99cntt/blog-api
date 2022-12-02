@@ -38,7 +38,8 @@ class ForgotPassword extends Mailable
     {
         return $this->markdown('emails.auth.forgot_password')
             ->with([
-                'url' => route('auth.password_reset', ['token' => $this->memberPasswordReset->token]),
+                'url' => 'http://127.0.0.1:8000/api/auth/password-reset/'.$this->memberPasswordReset->token,
+                // 'url' => route('auth.password_reset', ['token' => $this->memberPasswordReset->token]),
                 'urlLifeTime' => MemberPasswordReset::TOKEN_TIME,
                 'user' => $this->member,
                 'info' => $this->info,

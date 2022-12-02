@@ -37,10 +37,10 @@ class AuthController extends Controller
         return responder()->getSuccess(['email' => $member->email]);
     }
 
-    public function passwordReset(Request $request, string $token): JsonResponse
+    public function passwordReset(Request $request, string $token)
     {
         $this->authService->passwordReset($token);
 
-        return responder()->getSuccess();
+        return view('emails.auth.notification_reset_success');
     }
 }
