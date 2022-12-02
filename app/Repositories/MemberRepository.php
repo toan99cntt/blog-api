@@ -100,7 +100,7 @@ class MemberRepository extends BaseRepository
 
     public function updatePassword(Member $member, string $password): Member
     {
-        $member->setPassword($password)
+        $member->setPassword(Hash::make($password))
             ->save();
 
         return $member;
